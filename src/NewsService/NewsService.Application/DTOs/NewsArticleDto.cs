@@ -1,6 +1,6 @@
 ﻿namespace NewsService.NewsService.Application.DTOs
 {
-    public class NewsArticleDto
+    public class NewsArticleDto:BaseDto
     {
         public string Title { get; set; }
         public string Author { get; set; }

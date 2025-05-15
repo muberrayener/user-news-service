@@ -19,29 +19,29 @@ namespace NewsService.NewsService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<NewsArticle>> GetAllAsync()
+        public async Task<IEnumerable<NewsArticleEnt>> GetAllAsync()
         {
             using (var connection = _context.CreateConnection())
             {
                 const string sql = "SELECT * FROM NewsArticles";
-                return await connection.QueryAsync<NewsArticle>(sql);
+                return await connection.QueryAsync<NewsArticleEnt>(sql);
             }
         }
 
-        public async Task<NewsArticle> GetByIdAsync(int id)
+        public async Task<NewsArticleEnt> GetByIdAsync(int id)
         {
             using (var connection = _context.CreateConnection())
             {
                 const string sql = "SELECT * FROM NewsArticles WHERE Id = @Id";
-                return await connection.QuerySingleOrDefaultAsync<NewsArticle>(sql, new { Id = id });
+                return await connection.QuerySingleOrDefaultAsync<NewsArticleEnt>(sql, new { Id = id });
             }
         }
 
-        public async Task AddAsync(NewsArticle newsArticle)
+        public async Task AddAsync(NewsArticleEnt newsArticle)
         {
             using (var connection = _context.CreateConnection())
             {
-                const string sql = "INSERT INTO NewsArticles (Title, Author,Content, Date) VALUES (@Title, @Author, @Content, @Date)";
+                const string sql = "INSERT INTO NewsArticles (Title, Author,Content, insert_date) VALUES (@Title, @Author, @Content, @insert_date)";
                 await connection.ExecuteAsync(sql, newsArticle);
             }
         }

@@ -4,9 +4,9 @@ namespace UserService.UserService.Application.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAllAsync();
-        Task<User> GetByIdAsync(int id);
-        Task AddAsync(User user);
-        Task<User> GetByEmailAsync(string email);
+        Task<IEnumerable<UserEnt>> GetAllAsync();
+        Task<UserEnt> GetByIdAsync(int id);
+        Task AddAsync(UserEnt user);
+        Task<UserEnt> GetByEmailAsync(string email);
     }
 }

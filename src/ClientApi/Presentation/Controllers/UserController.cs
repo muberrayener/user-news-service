@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ClientApi.Application.Interfaces;
 using ClientApi.Core.DTOs;
-using Microsoft.AspNetCore.Session;
 using ClientApi.Core.Entities;
-using ClientApi.Infrastructure.Repositories;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ClientApi.Presentation.Controllers
 {

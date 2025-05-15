@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using ClientApi.Application.Services;
 using ClientApi.Application.Interfaces;
-using ClientApi.Infrastructure.Repositories;
-using Microsoft.Extensions.Configuration;
 
 namespace ClientApi
 {
@@ -21,9 +15,6 @@ namespace ClientApi
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-            services.AddScoped<IUserSessionRepository>(provider =>
-                new UserSessionRepository(connectionString));
 
             services.AddAuthentication("Bearer")
             .AddCookie("Bearer", options =>

@@ -5,9 +5,9 @@ namespace NewsService.NewsService.Core.Interfaces
 {
     public interface INewsService
     {
-        Task<IEnumerable<NewsArticle>> GetAllArticlesAsync();
-        Task<NewsArticle> GetArticleByIdAsync(int id);
-        Task<NewsArticle> AddArticleAsync(NewsArticleDto newsArticleDto);
+        Task<IEnumerable<NewsArticleEnt>> GetAllArticlesAsync();
+        Task<NewsArticleEnt> GetArticleByIdAsync(int id);
+        Task<NewsArticleEnt> AddArticleAsync(NewsArticleDto newsArticleDto);
 
     }
 }

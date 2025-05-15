@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\NewsService\\NewsService.csproj": {}
+    "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\NewsService\\NewsService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\NewsService\\NewsService.csproj": {
+    "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\NewsService\\NewsService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\NewsService\\NewsService.csproj",
+        "projectUniqueName": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\NewsService\\NewsService.csproj",
         "projectName": "NewsService",
-        "projectPath": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\NewsService\\NewsService.csproj",
-        "packagesPath": "C:\\Users\\23120205094\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\NewsService\\obj\\",
+        "projectPath": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\NewsService\\NewsService.csproj",
+        "packagesPath": "C:\\Users\\muberra.yener\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\NewsService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\23120205094\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\muberra.yener\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -23,7 +23,6 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -47,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[14.0.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -91,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

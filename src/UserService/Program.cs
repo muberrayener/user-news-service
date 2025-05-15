@@ -1,56 +1,52 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using UserService.UserService.Application.Services;
+using Microsoft.IdentityModel.Tokens;
+using NewsApp.Infrastructure.Seeding;
+using UserService.UserService.API.Auth;
 using UserService.UserService.Application.Interfaces;
+using UserService.UserService.Application.Services;
 using UserService.UserService.Infrastructure.Data;
 using UserService.UserService.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddIdentityServer()
+    .AddInMemoryClients(Config.Clients)
+    .AddInMemoryApiScopes(Config.ApiScopes)
+    .AddInMemoryIdentityResources(Config.IdentityResources)
+    .AddDeveloperSigningCredential()
+    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+    .AddProfileService<ProfileService>();
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
+        options.Authority = builder.Configuration["IdentityServer:Url"];
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
 });
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 
+// Register your services
 builder.Services.AddScoped<DapperContext>(provider =>
     new DapperContext(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserServ>();
+builder.Services.AddHostedService<SeedDatabase>();  // Make sure to add the seeding service
 
 var app = builder.Build();
 
+// Ensure that the seeding logic happens during startup.
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DapperContext>();
-    dbContext.EnsureDatabaseCreated();
-
     var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-    await userService.EnsureAdminUserExistsAsync();
 }
 
 if (app.Environment.IsDevelopment())
@@ -60,9 +56,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); 
+app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers(); 
+app.MapControllers();
 
 app.Run();

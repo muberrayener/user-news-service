@@ -8,6 +8,8 @@ using UserService.UserService.Core.DTOs;
 using UserService.UserService.Core.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
+using UserService.UserService.Application.Helpers;
 
 namespace UserService.UserService.Application.Services
 {
@@ -22,11 +24,11 @@ namespace UserService.UserService.Application.Services
             _configuration = configuration; 
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync() => await _userRepository.GetAllAsync();
+        public async Task<IEnumerable<UserEnt>> GetAllUsersAsync() => await _userRepository.GetAllAsync();
 
-        public async Task<User> GetUserByIdAsync(int id) => await _userRepository.GetByIdAsync(id);
+        public async Task<UserEnt> GetUserByIdAsync(int id) => await _userRepository.GetByIdAsync(id);
 
-        public async Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
+        public async Task<UserEnt> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
         {
             var existingUser = await _userRepository.GetByEmailAsync(userRegistrationDto.Email);
             if (existingUser != null)
@@ -34,12 +36,12 @@ namespace UserService.UserService.Application.Services
                 throw new Exception("User already exists with this email.");
             }
 
-            var user = new User
+            var user = new UserEnt
             {
-                Name = userRegistrationDto.Name,
-                Email = userRegistrationDto.Email,
-                Password = HashPassword(userRegistrationDto.Password),
-                Role = ""
+                name = userRegistrationDto.Name,
+                email = userRegistrationDto.Email,
+                password = HashHelpers.HashPassword(userRegistrationDto.Password),
+                role = ""
             };
 
             await _userRepository.AddAsync(user);
@@ -54,7 +56,7 @@ namespace UserService.UserService.Application.Services
             {
                 throw new Exception("User doesn't exist");
             }
-            if (!VerifyPassword(userLoginDto.Password, user.Password))
+            if (!HashHelpers.VerifyPassword(userLoginDto.Password, user.password))
             {
                 throw new Exception("Wrong password");
             }
@@ -62,46 +64,7 @@ namespace UserService.UserService.Application.Services
             return GenerateJwtToken(user);
         }
 
-        private const string Key = "secret_key";
-
-        private string HashPassword(string password)
-        {
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(Key));
-            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hash);
-        }
-
-        private bool VerifyPassword(string password, string storedHash)
-        {
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(Key));
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            var hashBytes = Convert.FromBase64String(storedHash);
-            return computedHash.SequenceEqual(hashBytes);
-        }
-
-        public async Task EnsureAdminUserExistsAsync()
-        {
-            var adminEmail = "admin@example.com";
-            var adminPassword = "123123";
-            var adminUser = await _userRepository.GetByEmailAsync(adminEmail);
-
-            if (adminUser == null)
-            {
-                var hashedPassword = HashPassword(adminPassword);
-                adminUser = new User
-                {
-                    Name = "ADMIN",
-                    Email = adminEmail,
-                    Password = hashedPassword,
-                    Role = "admin"
-                };
-
-                await _userRepository.AddAsync(adminUser);
-                Console.WriteLine("Admin created successfully.");
-            }
-        }
-
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(UserEnt user)
         {
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
             if (key.Length < 16)
@@ -111,9 +74,9 @@ namespace UserService.UserService.Application.Services
            
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role) 
+                new Claim(ClaimTypes.Role, user.role) 
             };
             
            var creds = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);

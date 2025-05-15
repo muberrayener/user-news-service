@@ -30,7 +30,7 @@ namespace NewsService.NewsService.Infrastructure.Data
                             title VARCHAR(255) NOT NULL,
                             content TEXT NOT NULL,
                             author VARCHAR(100) NOT NULL,
-                            date VARCHAR(100)
+                            insert_date VARCHAR(100)
                         );";
 
                     connection.Execute(sql);

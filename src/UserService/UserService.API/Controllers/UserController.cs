@@ -19,7 +19,7 @@ namespace UserService.UserService.API.Controllers
 
         [Authorize(Policy = "AdminOnly")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserEnt>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
@@ -27,7 +27,7 @@ namespace UserService.UserService.API.Controllers
 
         [Authorize(Policy = "AdminOnly")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserEnt>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null) return NotFound();
@@ -36,7 +36,7 @@ namespace UserService.UserService.API.Controllers
 
        
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register([FromBody] UserRegistrationDto userRegistrationDto)
+        public async Task<ActionResult<UserEnt>> Register([FromBody] UserRegistrationDto userRegistrationDto)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace UserService.UserService.API.Controllers
             }
 
             var user = await _userService.RegisterUserAsync(userRegistrationDto);
-            return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(Register), new { id = user.id }, user);
         }
 
         [HttpPost("login")]

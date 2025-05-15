@@ -5,6 +5,8 @@ using NewsService.NewsService.Core.Interfaces;
 using NewsService.NewsService.Application.DTOs;
 using NewsService.NewsService.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using NewsService.NewsService.Application.Mapping;
+
 
 namespace NewsService.NewsService.API.Controllers
     {
@@ -22,7 +24,7 @@ namespace NewsService.NewsService.API.Controllers
 
             [Authorize]
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<NewsArticle>>> GetAllArticles()
+            public async Task<ActionResult<IEnumerable<NewsArticleEnt>>> GetAllArticles()
             {
                 var newsArticles = await _newsService.GetAllArticlesAsync();
                 return Ok(newsArticles);
@@ -30,16 +32,17 @@ namespace NewsService.NewsService.API.Controllers
 
             [Authorize]
             [HttpGet("{id}")]
-            public async Task<ActionResult<NewsArticle>> GetArticleById(int id)
+            public async Task<ActionResult<NewsArticleEnt>> GetArticleById(int id)
             {
                 var newsArticle = await _newsService.GetArticleByIdAsync(id);
-                if (newsArticle == null) return NotFound();
-                return Ok(newsArticle);
+                var newsArticleDto = NewsMapper<Mapper>.Mapper.Map<NewsArticleDto>(newsArticle);
+                if (newsArticleDto == null) return NotFound();
+                    return Ok(newsArticleDto);
             }
 
             [Authorize(Policy = "AdminOnly")]
             [HttpPost("register")]
-            public async Task<ActionResult<NewsArticle>>AddArticle([FromBody] NewsArticleDto newsArticleDto)
+            public async Task<ActionResult<NewsArticleEnt>>AddArticle([FromBody] NewsArticleDto newsArticleDto)
             {
                 if (!ModelState.IsValid)
                 {

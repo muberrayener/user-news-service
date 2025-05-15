@@ -17,25 +17,25 @@ namespace UserService.UserService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<UserEnt>> GetAllAsync()
         {
             using (var connection = _context.CreateConnection())
             {
                 const string sql = "SELECT * FROM Users";
-                return await connection.QueryAsync<User>(sql);
+                return await connection.QueryAsync<UserEnt>(sql);
             }
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<UserEnt> GetByIdAsync(int id)
         {
             using (var connection = _context.CreateConnection())
             {
                 const string sql = "SELECT * FROM Users WHERE Id = @Id";
-                return await connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+                return await connection.QuerySingleOrDefaultAsync<UserEnt>(sql, new { Id = id });
             }
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(UserEnt user)
         {
             using (var connection = _context.CreateConnection())
             {
@@ -44,13 +44,13 @@ namespace UserService.UserService.Infrastructure.Repositories
             }
         }
 
-        public async Task<User> GetByEmailAsync(string email)
+        public async Task<UserEnt> GetByEmailAsync(string email)
         {
             const string sql = "SELECT * FROM users WHERE email = @Email;";
 
             using (var connection = _context.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Email = email });
+                return await connection.QueryFirstOrDefaultAsync<UserEnt>(sql, new { Email = email });
             }
         }
 

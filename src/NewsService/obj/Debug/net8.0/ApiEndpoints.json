@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[NewsService.NewsService.Core.Entities.NewsArticle, NewsService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NewsService.NewsService.Core.Entities.NewsArticleEnt, NewsService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -35,7 +35,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "NewsService.NewsService.Core.Entities.NewsArticle",
+        "Type": "NewsService.NewsService.Core.Entities.NewsArticleEnt",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -61,7 +61,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "NewsService.NewsService.Core.Entities.NewsArticle",
+        "Type": "NewsService.NewsService.Core.Entities.NewsArticleEnt",
         "MediaTypes": [
           "text/plain",
           "application/json",

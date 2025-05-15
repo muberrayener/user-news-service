@@ -13,14 +13,14 @@ namespace NewsService.NewsService.Application.Services
         {
             _newsRepository = newsRepository;
         }
-        public async Task<NewsArticle> AddArticleAsync(NewsArticleDto newsArticleDto)
+        public async Task<NewsArticleEnt> AddArticleAsync(NewsArticleDto newsArticleDto)
         {
-            var newsArticle = new NewsArticle
+            var newsArticle = new NewsArticleEnt
             {
                 Title = newsArticleDto.Title,
                 Author = newsArticleDto.Author,
                 Content = newsArticleDto.Content,
-                Date = GetCurrentDateTime(),
+                insert_date = DateTime.UtcNow,
             };
 
             await _newsRepository.AddAsync(newsArticle);
@@ -28,15 +28,10 @@ namespace NewsService.NewsService.Application.Services
             return newsArticle ;
         }
 
-        public async Task<IEnumerable<NewsArticle>> GetAllArticlesAsync() => await _newsRepository.GetAllAsync();
+        public async Task<IEnumerable<NewsArticleEnt>> GetAllArticlesAsync() => await _newsRepository.GetAllAsync();
 
-        public async Task<NewsArticle> GetArticleByIdAsync(int id) => await _newsRepository.GetByIdAsync(id);
+        public async Task<NewsArticleEnt> GetArticleByIdAsync(int id) => await _newsRepository.GetByIdAsync(id);
 
-        private String GetCurrentDateTime()
-        {
-            DateTime currentDateTime = DateTime.Now;
-            string formattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm");
-            return formattedDateTime;
-        }
+        
     }
 }

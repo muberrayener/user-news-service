@@ -1236,19 +1236,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\23120205094\\.nuget\\packages\\": {}
+    "C:\\Users\\muberra.yener\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\ApiGateway\\ApiGateway.csproj",
+      "projectUniqueName": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\ApiGateway\\ApiGateway.csproj",
       "projectName": "ApiGateway",
-      "projectPath": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\ApiGateway\\ApiGateway.csproj",
-      "packagesPath": "C:\\Users\\23120205094\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\23120205094\\source\\repos\\NewsApp\\src\\ApiGateway\\obj\\",
+      "projectPath": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\ApiGateway\\ApiGateway.csproj",
+      "packagesPath": "C:\\Users\\muberra.yener\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\muberra.yener\\projects\\user-news-service\\src\\ApiGateway\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\23120205094\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\muberra.yener\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1257,7 +1257,6 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
-        "https://api.nuget.org/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1313,7 +1312,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
